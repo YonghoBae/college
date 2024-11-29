@@ -18,8 +18,7 @@ public class ManagementEntity {
     @Column(name = "club_name")
     private String clubName;
 
-
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "professor_id", referencedColumnName = "professorId")
-    private Professor professor; // Foreign Key: Professor
+    private ProfessorEntity professor; // Foreign Key: Professor
 }

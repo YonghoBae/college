@@ -32,6 +32,7 @@ public class MemberController {
         return ResponseEntity.ok("Member updated");
     }
 
+    @DeleteMapping("{/id}")
     public ResponseEntity<String> deleteMember(@PathVariable int id) {
         memberService.deleteMember(id);
         return ResponseEntity.ok("Member deleted");
