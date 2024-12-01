@@ -6,23 +6,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Activity")
+@Table(name = "Budget")
 @Getter
 @Setter
 @NoArgsConstructor
-public class ActivityEntity {
+public class BudgetEntity {
     @Id
-    @Column(name = "activity_name")
-    private String activityName;
+    @Column(name = "budget_id")
+    private Integer budgetId;
 
-    @Column(name = "activity_date")
-    private String activityDate;
+    @Column(name = "amount")
+    private Double amount;
 
     @Column(name = "type")
     private String type;
 
-    @Column(name = "expense")
-    private Double expense;
+    @Column(name = "created_date")
+    private String createdDate;
 
     @ManyToOne
     @JoinColumn(name = "club_name")

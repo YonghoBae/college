@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Member")
+@Table(name = "Student")
 @Getter
 @Setter
 @NoArgsConstructor
-public class MemberEntity {
+public class StudentEntity {
     @Id
-    @Column(name = "member_id")
-    private Integer memberId; // Primary Key
+    @Column(name = "student_id")
+    private Integer studentId; // Primary Key
 
     @Column(name = "name")
     private String name;
@@ -22,12 +22,9 @@ public class MemberEntity {
     @Column(name = "gender")
     private String gender;
 
+    @Column(name = "email", unique = true)
+    private String email;
+
     @Column(name = "contact")
     private String contact;
-
-    @Column(name = "role")
-    private String role;
-
-    @Column(name = "fee_status")
-    private Boolean feeStatus;
 }

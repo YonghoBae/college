@@ -6,19 +6,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Teaching_Assistant")
+@Table(name = "Assistant")
 @Getter
 @Setter
 @NoArgsConstructor
-public class TeachingAssistantEntity {
+public class AssistantEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "assistant_id")
     private Integer assistantId; // Primary Key
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
+
+    @Column(name = "contact")
+    private String contact;
+
+    @Column(name = "room_number")
+    private String roomNumber;
 }

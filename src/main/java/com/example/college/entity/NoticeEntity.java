@@ -6,21 +6,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "ActivityReport")
+@Table(name = "Notice")
 @Getter
 @Setter
 @NoArgsConstructor
-public class ActivityReportEntity {
+public class NoticeEntity {
     @Id
-    @Column(name = "report_id")
-    private Integer reportId;
-
-    @Column(name = "title")
-    private String title;
+    @Column(name = "notice_id")
+    private Integer noticeId;
 
     @Column(name = "content")
     private String content;
 
     @Column(name = "written_date")
     private String writtenDate;
+
+    @ManyToOne
+    @JoinColumn(name = "club_name")
+    private ClubEntity club;
 }
