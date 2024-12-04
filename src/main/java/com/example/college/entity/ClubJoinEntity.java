@@ -29,11 +29,3 @@ public class ClubJoinEntity {
     @JoinColumn(name = "student_id")
     private StudentEntity student;
 }
-
-@Embeddable
-class ClubJoinKey implements Serializable {
-    private String clubName;
-    private Integer studentId;
-
-    // Getters, setters, equals, hashCode 구현 필요
-}

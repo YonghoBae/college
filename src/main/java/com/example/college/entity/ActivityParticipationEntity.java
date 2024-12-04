@@ -26,11 +26,3 @@ public class ActivityParticipationEntity {
     @JoinColumn(name = "student_id")
     private StudentEntity student;
 }
-
-@Embeddable
-class ActivityParticipationKey implements Serializable {
-    private String activityName;
-    private Integer studentId;
-
-    // Getters, setters, equals, hashCode 구현 필요
-}

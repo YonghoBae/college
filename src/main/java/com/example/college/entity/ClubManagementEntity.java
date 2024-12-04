@@ -32,9 +32,3 @@ public class ClubManagementEntity {
     @JoinColumn(name = "student_id")
     private StudentEntity student;
 }
-
-@Embeddable
-class ClubManagementKey implements Serializable {
-    private String clubName;
-    private Integer studentId;
-}
