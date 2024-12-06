@@ -10,36 +10,39 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Clubs")
+@RequestMapping("/clubs")
 @RequiredArgsConstructor
 public class ClubController {
-    private final ClubService ClubService;
+    private final ClubService clubService;
 
     @GetMapping
-    public List<ClubEntity> getAllClubs() {
-        return ClubService.findAllClubs();
+    public ResponseEntity<List<ClubEntity>> getAllClubs() {
+        List<ClubEntity> clubs = clubService.findAllClubs();
+        return ResponseEntity.ok(clubs);
     }
 
-    @GetMapping("/{id}")
-    public ClubEntity getClub(@PathVariable String id) {
-        return ClubService.findClubById(id);
+    @GetMapping("/{name}")
+    public ResponseEntity<ClubEntity> getClubByName(@PathVariable String name) {
+        ClubEntity club = clubService.findClubById(name);
+        return ResponseEntity.ok(club);
     }
 
     @PostMapping
-    public ResponseEntity<String> createClub(@RequestBody ClubEntity Club) {
-        ClubService.saveClub(Club);
-        return ResponseEntity.ok("Club created");
+    public ResponseEntity<ClubEntity> addClub(@RequestBody ClubEntity club) {
+        clubService.saveClub(club);
+        return ResponseEntity.ok(club);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateClub(@PathVariable int id, @RequestBody ClubEntity Club) {
-        ClubService.updateClub(Club);
-        return ResponseEntity.ok("Club updated");
+    @PutMapping
+    public ResponseEntity<ClubEntity> updateClub(@RequestBody ClubEntity club) {
+        clubService.updateClub(club);
+        return ResponseEntity.ok(club);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteClub(@PathVariable String id) {
-        ClubService.deleteClub(id);
-        return ResponseEntity.ok("Club deleted");
+    @DeleteMapping("/{name}")
+    public ResponseEntity<Void> deleteClub(@PathVariable String name) {
+        clubService.deleteClub(name);
+        return ResponseEntity.noContent().build();
     }
 }
+

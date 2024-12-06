@@ -9,32 +9,38 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/professors")
 @RequiredArgsConstructor
 public class ProfessorController {
-    private final ProfessorService ProfessorService;
+    private final ProfessorService professorService;
 
     @GetMapping
-    public List<ProfessorEntity> getAllProfessors() { return ProfessorService.findAllProfessors(); }
+    public ResponseEntity<List<ProfessorEntity>> getAllProfessors() {
+        List<ProfessorEntity> professors = professorService.findAllProfessors();
+        return ResponseEntity.ok(professors);
+    }
 
     @GetMapping("/{id}")
-    public ProfessorEntity getProfessor(@PathVariable int id) { return ProfessorService.findProfessorById(id); }
+    public ResponseEntity<ProfessorEntity> getProfessorById(@PathVariable Integer id) {
+        ProfessorEntity professor = professorService.findProfessorById(id);
+        return ResponseEntity.ok(professor);
+    }
 
     @PostMapping
-    public ResponseEntity<String> createProfessor(@RequestBody ProfessorEntity Professor) {
-        ProfessorService.saveProfessor(Professor);
-        return ResponseEntity.ok("Professor created");
+    public ResponseEntity<ProfessorEntity> addProfessor(@RequestBody ProfessorEntity professor) {
+        professorService.saveProfessor(professor);
+        return ResponseEntity.ok(professor);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<String> updateProfessor(@PathVariable int id, @RequestBody ProfessorEntity Professor) {
-        ProfessorService.updateProfessor(Professor);
-        return ResponseEntity.ok("Professor updated");
+    @PutMapping
+    public ResponseEntity<ProfessorEntity> updateProfessor(@RequestBody ProfessorEntity professor) {
+        professorService.updateProfessor(professor);
+        return ResponseEntity.ok(professor);
     }
 
-    @DeleteMapping("{/id}")
-    public ResponseEntity<String> deleteProfessor(@PathVariable int id) {
-        ProfessorService.deleteProfessor(id);
-        return ResponseEntity.ok("Professor deleted");
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProfessor(@PathVariable Integer id) {
+        professorService.deleteProfessor(id);
+        return ResponseEntity.noContent().build();
     }
 }
