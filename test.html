@@ -8,85 +8,85 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
 </head>
 <body>
-    <section class="section">
-        <div class="container">
-            <h1 class="title">College Management System</h1>
-            <p class="subtitle">Manage your students, clubs, and activities all in one place.</p>
-            
-            <div class="tabs is-boxed">
-                <ul>
-                    <li class="is-active" id="student-tab"><a>Students</a></li>
-                    <li id="club-tab"><a>Clubs</a></li>
-                    <li id="assistant-tab"><a>Assistants</a></li>
-                    <li id="budget-tab"><a>Budgets</a></li>
-                    <li id="activity-tab"><a>Activities</a></li>
-                    <li id="announcement-tab"><a>Announcements</a></li>
-                </ul>
+<section class="section">
+    <div class="container">
+        <h1 class="title">College Management System</h1>
+        <p class="subtitle">Manage your students, clubs, professors, assistants, and activities all in one place.</p>
+
+        <div class="tabs is-boxed">
+            <ul>
+                <li class="is-active" id="student-tab"><a>Students</a></li>
+                <li id="club-professor-tab"><a>Clubs & Professors</a></li>
+                <li id="assistant-tab"><a>Assistants</a></li>
+                <li id="budget-tab"><a>Budgets</a></li>
+                <li id="activity-tab"><a>Activities</a></li>
+                <li id="announcement-tab"><a>Announcements</a></li>
+            </ul>
+        </div>
+
+        <div id="content">
+            <div id="student-content">
+                <h2 class="title is-4">Students</h2>
+                <button class="button is-primary" onclick="showCreateForm('students')">Add Student</button>
+                <div id="student-data"></div>
             </div>
 
-            <div id="content">
-                <div id="student-content">
-                    <h2 class="title is-4">Students</h2>
-                    <button class="button is-primary" onclick="showCreateForm('students')">Add Student</button>
-                    <div id="student-data"></div>
-                </div>
+            <div id="club-professor-content" class="is-hidden">
+                <h2 class="title is-4">Clubs & Professors</h2>
+                <button class="button is-primary" onclick="showCreateForm('clubs-professors')">Add Club/Professor</button>
+                <div id="club-professor-data"></div>
+            </div>
 
-                <div id="club-content" class="is-hidden">
-                    <h2 class="title is-4">Clubs</h2>
-                    <button class="button is-primary" onclick="showCreateForm('clubs')">Add Club</button>
-                    <div id="club-data"></div>
-                </div>
+            <div id="assistant-content" class="is-hidden">
+                <h2 class="title is-4">Assistants</h2>
+                <button class="button is-primary" onclick="showCreateForm('assistants')">Add Assistant</button>
+                <div id="assistant-data"></div>
+            </div>
 
-                <div id="assistant-content" class="is-hidden">
-                    <h2 class="title is-4">Assistants</h2>
-                    <button class="button is-primary" onclick="showCreateForm('assistants')">Add Assistant</button>
-                    <div id="assistant-data"></div>
-                </div>
+            <div id="budget-content" class="is-hidden">
+                <h2 class="title is-4">Budgets</h2>
+                <button class="button is-primary" onclick="showCreateForm('budgets')">Add Budget</button>
+                <div id="budget-data"></div>
+            </div>
 
-                <div id="budget-content" class="is-hidden">
-                    <h2 class="title is-4">Budgets</h2>
-                    <button class="button is-primary" onclick="showCreateForm('budgets')">Add Budget</button>
-                    <div id="budget-data"></div>
-                </div>
+            <div id="activity-content" class="is-hidden">
+                <h2 class="title is-4">Activities</h2>
+                <button class="button is-primary" onclick="showCreateForm('activities')">Add Activity</button>
+                <div id="activity-data"></div>
+            </div>
 
-                <div id="activity-content" class="is-hidden">
-                    <h2 class="title is-4">Activities</h2>
-                    <button class="button is-primary" onclick="showCreateForm('activities')">Add Activity</button>
-                    <div id="activity-data"></div>
-                </div>
-
-                <div id="announcement-content" class="is-hidden">
-                    <h2 class="title is-4">Announcements</h2>
-                    <button class="button is-primary" onclick="showCreateForm('announcements')">Add Announcement</button>
-                    <div id="announcement-data"></div>
-                </div>
+            <div id="announcement-content" class="is-hidden">
+                <h2 class="title is-4">Announcements</h2>
+                <button class="button is-primary" onclick="showCreateForm('announcements')">Add Announcement</button>
+                <div id="announcement-data"></div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.tabs ul li').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    document.querySelectorAll('.tabs ul li').forEach(t => t.classList.remove('is-active'));
-                    tab.classList.add('is-active');
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.tabs ul li').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tabs ul li').forEach(t => t.classList.remove('is-active'));
+                tab.classList.add('is-active');
 
-                    document.querySelectorAll('#content > div').forEach(content => content.classList.add('is-hidden'));
-                    const activeContent = document.getElementById(tab.id.replace('-tab', '-content'));
-                    activeContent.classList.remove('is-hidden');
-                    fetchData(tab.id.replace('-tab', ''));
-                });
+                document.querySelectorAll('#content > div').forEach(content => content.classList.add('is-hidden'));
+                const activeContent = document.getElementById(tab.id.replace('-tab', '-content'));
+                activeContent.classList.remove('is-hidden');
+                fetchData(tab.id.replace('-tab', ''));
             });
-
-            // Load initial data for the active tab
-            fetchData('students');
         });
 
-        function fetchData(endpoint) {
-            fetch(`/${endpoint}`)
-                .then(response => response.json())
-                .then(data => {
-                    let output = `<table class="table is-fullwidth is-striped">
+        // Load initial data for the active tab
+        fetchData('students');
+    });
+
+    function fetchData(endpoint) {
+        fetch(`/${endpoint}`)
+            .then(response => response.json())
+            .then(data => {
+                let output = `<table class="table is-fullwidth is-striped">
                                     <thead>
                                         <tr>
                                             ${Object.keys(data[0]).map(key => `<th>${key}</th>`).join('')}
@@ -100,79 +100,79 @@
                                         </td></tr>`).join('')}
                                     </tbody>
                                   </table>`;
-                    document.getElementById(`${endpoint}-data`).innerHTML = output;
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                    document.getElementById(`${endpoint}-data`).innerHTML = '<p class="has-text-danger">Failed to load data.</p>';
-                });
-        }
+                document.getElementById(`${endpoint}-data`).innerHTML = output;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                document.getElementById(`${endpoint}-data`).innerHTML = '<p class="has-text-danger">Failed to load data.</p>';
+            });
+    }
 
-        function showCreateForm(endpoint) {
-            // Simple form structure for creating a new item
-            const formHtml = `<div class="box">
+    function showCreateForm(endpoint) {
+        // Create form structure for students, clubs, professors, etc.
+        const formHtml = `<div class="box">
                                 <h3 class="title is-5">Add New ${endpoint.charAt(0).toUpperCase() + endpoint.slice(1)}</h3>
                                 <form onsubmit="createItem(event, '${endpoint}')">
                                     <input class="input" type="text" name="name" placeholder="Enter name" required>
                                     <button class="button is-primary mt-2" type="submit">Create</button>
                                 </form>
                               </div>`;
-            document.getElementById(`${endpoint}-data`).innerHTML = formHtml;
-        }
+        document.getElementById(`${endpoint}-data`).innerHTML = formHtml;
+    }
 
-        function createItem(event, endpoint) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData);
+    function createItem(event, endpoint) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData);
 
-            fetch(`/${endpoint}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => response.json())
-                .then(() => fetchData(endpoint))
-                .catch(error => console.error('Error creating item:', error));
-        }
+        fetch(`/${endpoint}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(() => fetchData(endpoint))
+            .catch(error => console.error('Error creating item:', error));
+    }
 
-        function showUpdateForm(endpoint, id) {
-            // Placeholder for update form - should fetch specific item details to populate form
-            const formHtml = `<div class="box">
+    function showUpdateForm(endpoint, id) {
+        // Placeholder for update form - should fetch specific item details to populate form
+        const formHtml = `<div class="box">
                                 <h3 class="title is-5">Edit ${endpoint.charAt(0).toUpperCase() + endpoint.slice(1)}</h3>
                                 <form onsubmit="updateItem(event, '${endpoint}', ${id})">
                                     <input class="input" type="text" name="name" placeholder="Update name" required>
                                     <button class="button is-primary mt-2" type="submit">Update</button>
                                 </form>
                               </div>`;
-            document.getElementById(`${endpoint}-data`).innerHTML = formHtml;
-        }
+        document.getElementById(`${endpoint}-data`).innerHTML = formHtml;
+    }
 
-        function updateItem(event, endpoint, id) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData);
+    function updateItem(event, endpoint, id) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData);
 
-            fetch(`/${endpoint}/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => response.json())
-                .then(() => fetchData(endpoint))
-                .catch(error => console.error('Error updating item:', error));
-        }
+        fetch(`/${endpoint}/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(() => fetchData(endpoint))
+            .catch(error => console.error('Error updating item:', error));
+    }
 
-        function deleteItem(endpoint, id) {
-            fetch(`/${endpoint}/${id}`, {
-                method: 'DELETE'
-            })
-                .then(() => fetchData(endpoint))
-                .catch(error => console.error('Error deleting item:', error));
-        }
-    </script>
+    function deleteItem(endpoint, id) {
+        fetch(`/${endpoint}/${id}`, {
+            method: 'DELETE'
+        })
+            .then(() => fetchData(endpoint))
+            .catch(error => console.error('Error deleting item:', error));
+    }
+</script>
 </body>
 </html>

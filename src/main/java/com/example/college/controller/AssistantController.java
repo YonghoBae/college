@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/assistants")
+@RequestMapping("/assistants")
 @RequiredArgsConstructor
 public class AssistantController {
     private final AssistantService assistantService;
