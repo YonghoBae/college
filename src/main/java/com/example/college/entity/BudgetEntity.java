@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Budget")
+@Table(name = "budget")
 @Getter
 @Setter
 @NoArgsConstructor
 public class BudgetEntity {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "budget_id")
     private Integer budgetId;
 
@@ -25,6 +27,6 @@ public class BudgetEntity {
     private String createdDate;
 
     @ManyToOne
-    @JoinColumn(name = "club_name")
+    @JoinColumn(name = "club_name", referencedColumnName = "club_name") // 정확한 매핑 설정
     private ClubEntity club;
 }

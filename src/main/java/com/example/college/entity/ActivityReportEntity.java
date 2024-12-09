@@ -5,13 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
-@Table(name = "ActivityReport")
+@Table(name = "activityreport")
 @Getter
 @Setter
 @NoArgsConstructor
 public class ActivityReportEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "report_id")
     private Integer reportId;
 
@@ -23,4 +26,9 @@ public class ActivityReportEntity {
 
     @Column(name = "written_date")
     private String writtenDate;
+
+    @ManyToOne
+    @JoinColumn(name = "activity_name", referencedColumnName = "activity_name")
+    private ActivityEntity activity;
+
 }

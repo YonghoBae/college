@@ -10,25 +10,36 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class BudgetService {
-    private final BudgetRepository BudgetRepository;
 
+    private final BudgetRepository budgetRepository;
+
+    // 모든 예산 조회
     public List<BudgetEntity> findAllBudgets() {
-        return BudgetRepository.findAll();
+        return budgetRepository.findAll();
     }
 
+    // 특정 예산 조회
     public BudgetEntity findBudgetById(Integer id) {
-        return BudgetRepository.findById(id).orElseThrow();
+        return budgetRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Budget not found"));
     }
 
-    public void saveBudget(BudgetEntity Budget) {
-        BudgetRepository.save(Budget);
+    // 클럽에 대한 예산 조회
+    public List<BudgetEntity> findBudgetsByClub(String clubName) {
+        return budgetRepository.findByClub_ClubName(clubName);
     }
 
-    public void updateBudget(BudgetEntity Budget) {
-        BudgetRepository.save(Budget);
+    // 예산 저장
+    public BudgetEntity saveBudget(BudgetEntity budget) {
+        return budgetRepository.save(budget);
     }
 
-    public void deleteBudget(Integer id) {
-        BudgetRepository.deleteById(id);
+    // 예산 수정
+    public BudgetEntity updateBudget(BudgetEntity budget) {
+        return budgetRepository.save(budget);
+    }
+
+    // 예산 삭제
+    public void deleteBudget(Integer budgetId) {
+        budgetRepository.deleteById(budgetId);
     }
 }

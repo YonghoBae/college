@@ -1,9 +1,9 @@
 package com.example.college.controller;
 
 import com.example.college.entity.StudentEntity;
+import com.example.college.entity.ActivityEntity;
 import com.example.college.service.StudentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,35 +12,37 @@ import java.util.List;
 @RequestMapping("/students")
 @RequiredArgsConstructor
 public class StudentController {
+
     private final StudentService studentService;
 
+    // 모든 학생 조회
     @GetMapping
-    public ResponseEntity<List<StudentEntity>> getAllStudents() {
-        List<StudentEntity> students = studentService.findAllStudents();
-        return ResponseEntity.ok(students);
+    public List<StudentEntity> getAllStudents() {
+        return studentService.findAllStudents();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<StudentEntity> getStudentById(@PathVariable Integer id) {
-        StudentEntity student = studentService.findStudentById(id);
-        return ResponseEntity.ok(student);
+    // 특정 학생 조회
+    @GetMapping("/{studentId}")
+    public StudentEntity getStudent(@PathVariable Integer studentId) {
+        return studentService.findStudentById(studentId);
     }
 
+    // 학생 생성
     @PostMapping
-    public ResponseEntity<StudentEntity> addStudent(@RequestBody StudentEntity student) {
+    public StudentEntity createStudent(@RequestBody StudentEntity student) {
         studentService.saveStudent(student);
-        return ResponseEntity.ok(student);
+        return student;
     }
 
-    @PutMapping
-    public ResponseEntity<StudentEntity> updateStudent(@RequestBody StudentEntity student) {
-        studentService.updateStudent(student);
-        return ResponseEntity.ok(student);
+    // 학생 삭제
+    @DeleteMapping("/{studentId}")
+    public void deleteStudent(@PathVariable Integer studentId) {
+        studentService.deleteStudent(studentId);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable Integer id) {
-        studentService.deleteStudent(id);
-        return ResponseEntity.noContent().build();
+    // 학생이 참여한 활동 조회
+    @GetMapping("/{studentId}/activities")
+    public List<ActivityEntity> getActivitiesByStudent(@PathVariable Integer studentId) {
+        return studentService.findActivitiesByStudent(studentId);
     }
 }

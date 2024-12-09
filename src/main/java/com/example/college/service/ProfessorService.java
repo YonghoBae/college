@@ -1,6 +1,8 @@
 package com.example.college.service;
 
+import com.example.college.entity.ClubEntity;
 import com.example.college.entity.ProfessorEntity;
+import com.example.college.repository.ClubRepository;
 import com.example.college.repository.ProfessorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,19 +12,32 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProfessorService {
-    private ProfessorRepository ProfessorRepository;
 
+    private final ProfessorRepository professorRepository;
+    private final ClubRepository clubRepository;
+
+    // 모든 교수 조회
     public List<ProfessorEntity> findAllProfessors() {
-        return ProfessorRepository.findAll();
+        return professorRepository.findAll();
     }
 
-    public ProfessorEntity findProfessorById(Integer id) {
-        return ProfessorRepository.findById(id).orElseThrow();
+    // 특정 교수 조회
+    public ProfessorEntity findProfessorById(Integer professorId) {
+        return professorRepository.findById(professorId).orElseThrow();
     }
 
-    public void saveProfessor(ProfessorEntity Professor) { ProfessorRepository.save(Professor); }
+    // 교수에 의해 지도되는 동아리 조회
+    public List<ClubEntity> findClubsByProfessor(Integer professorId) {
+        return clubRepository.findByProfessor_ProfessorId(professorId);
+    }
 
-    public void updateProfessor(ProfessorEntity Professor) { ProfessorRepository.save(Professor); }
+    // 교수 저장
+    public void saveProfessor(ProfessorEntity professor) {
+        professorRepository.save(professor);
+    }
 
-    public void deleteProfessor(Integer id) { ProfessorRepository.deleteById(id); }
+    // 교수 삭제
+    public void deleteProfessor(Integer professorId) {
+        professorRepository.deleteById(professorId);
+    }
 }

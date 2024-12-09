@@ -10,25 +10,26 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ActivityService {
-    private final ActivityRepository ActivityRepository;
 
-    public List<ActivityEntity> findAllActivitys() {
-        return ActivityRepository.findAll();
+    private final ActivityRepository activityRepository;
+
+    // 모든 활동 조회
+    public List<ActivityEntity> findAllActivities() {
+        return activityRepository.findAll();
     }
 
-    public ActivityEntity findActivityById(String id) {
-        return ActivityRepository.findById(id).orElseThrow();
+    // 활동 이름으로 특정 활동 조회
+    public ActivityEntity findActivityById(String activityName) {
+        return activityRepository.findById(activityName).orElseThrow();
     }
 
-    public void saveActivity(ActivityEntity Activity) {
-        ActivityRepository.save(Activity);
+    // 활동 저장
+    public void saveActivity(ActivityEntity activity) {
+        activityRepository.save(activity);
     }
 
-    public void updateActivity(ActivityEntity Activity) {
-        ActivityRepository.save(Activity);
-    }
-
-    public void deleteActivity(String id) {
-        ActivityRepository.deleteById(id);
+    // 활동 삭제
+    public void deleteActivity(String activityName) {
+        activityRepository.deleteById(activityName);
     }
 }

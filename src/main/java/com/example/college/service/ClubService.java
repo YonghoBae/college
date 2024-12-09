@@ -10,25 +10,26 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ClubService {
-    private final ClubRepository ClubRepository;
 
+    private final ClubRepository clubRepository;
+
+    // 모든 동아리 조회
     public List<ClubEntity> findAllClubs() {
-        return ClubRepository.findAll();
+        return clubRepository.findAll();
     }
 
-    public ClubEntity findClubById(String id) {
-        return ClubRepository.findById(id).orElseThrow();
+    // 동아리 이름으로 특정 동아리 조회
+    public ClubEntity findClubById(String clubName) {
+        return clubRepository.findById(clubName).orElseThrow();
     }
 
-    public void saveClub(ClubEntity Club) {
-        ClubRepository.save(Club);
+    // 동아리 저장
+    public void saveClub(ClubEntity club) {
+        clubRepository.save(club);
     }
 
-    public void updateClub(ClubEntity Club) {
-        ClubRepository.save(Club);
-    }
-
-    public void deleteClub(String id) {
-        ClubRepository.deleteById(id);
+    // 동아리 삭제
+    public void deleteClub(String clubName) {
+        clubRepository.deleteById(clubName);
     }
 }

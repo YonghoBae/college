@@ -6,11 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Activity")
+@Table(name = "activity")
 @Getter
 @Setter
 @NoArgsConstructor
 public class ActivityEntity {
+
     @Id
     @Column(name = "activity_name")
     private String activityName;
@@ -25,6 +26,6 @@ public class ActivityEntity {
     private Double expense;
 
     @ManyToOne
-    @JoinColumn(name = "club_name")
+    @JoinColumn(name = "club_name", referencedColumnName = "club_name")
     private ClubEntity club;
 }

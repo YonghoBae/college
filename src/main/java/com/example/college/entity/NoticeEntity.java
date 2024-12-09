@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Notice")
+@Table(name = "notice")
 @Getter
 @Setter
 @NoArgsConstructor
 public class NoticeEntity {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notice_id")
     private Integer noticeId;
 
@@ -22,6 +24,6 @@ public class NoticeEntity {
     private String writtenDate;
 
     @ManyToOne
-    @JoinColumn(name = "club_name")
+    @JoinColumn(name = "club_name", referencedColumnName = "club_name")
     private ClubEntity club;
 }

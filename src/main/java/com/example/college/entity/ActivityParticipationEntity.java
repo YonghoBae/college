@@ -8,21 +8,22 @@ import lombok.Setter;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "ActivityParticipation")
+@Table(name = "activityparticipation")
 @Getter
 @Setter
 @NoArgsConstructor
 public class ActivityParticipationEntity {
+
     @EmbeddedId
     private ActivityParticipationKey id;
 
     @MapsId("activityName")
     @ManyToOne
-    @JoinColumn(name = "activity_name")
+    @JoinColumn(name = "activity_name", referencedColumnName = "activity_name")
     private ActivityEntity activity;
 
     @MapsId("studentId")
     @ManyToOne
-    @JoinColumn(name = "student_id")
+    @JoinColumn(name = "student_id", referencedColumnName = "student_id")
     private StudentEntity student;
 }

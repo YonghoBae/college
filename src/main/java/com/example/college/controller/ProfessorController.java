@@ -1,9 +1,9 @@
 package com.example.college.controller;
 
 import com.example.college.entity.ProfessorEntity;
+import com.example.college.entity.ClubEntity;
 import com.example.college.service.ProfessorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,35 +12,37 @@ import java.util.List;
 @RequestMapping("/professors")
 @RequiredArgsConstructor
 public class ProfessorController {
+
     private final ProfessorService professorService;
 
+    // 모든 교수 조회
     @GetMapping
-    public ResponseEntity<List<ProfessorEntity>> getAllProfessors() {
-        List<ProfessorEntity> professors = professorService.findAllProfessors();
-        return ResponseEntity.ok(professors);
+    public List<ProfessorEntity> getAllProfessors() {
+        return professorService.findAllProfessors();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProfessorEntity> getProfessorById(@PathVariable Integer id) {
-        ProfessorEntity professor = professorService.findProfessorById(id);
-        return ResponseEntity.ok(professor);
+    // 특정 교수 조회
+    @GetMapping("/{professorId}")
+    public ProfessorEntity getProfessor(@PathVariable Integer professorId) {
+        return professorService.findProfessorById(professorId);
     }
 
+    // 교수 생성
     @PostMapping
-    public ResponseEntity<ProfessorEntity> addProfessor(@RequestBody ProfessorEntity professor) {
+    public ProfessorEntity createProfessor(@RequestBody ProfessorEntity professor) {
         professorService.saveProfessor(professor);
-        return ResponseEntity.ok(professor);
+        return professor;
     }
 
-    @PutMapping
-    public ResponseEntity<ProfessorEntity> updateProfessor(@RequestBody ProfessorEntity professor) {
-        professorService.updateProfessor(professor);
-        return ResponseEntity.ok(professor);
+    // 교수 삭제
+    @DeleteMapping("/{professorId}")
+    public void deleteProfessor(@PathVariable Integer professorId) {
+        professorService.deleteProfessor(professorId);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProfessor(@PathVariable Integer id) {
-        professorService.deleteProfessor(id);
-        return ResponseEntity.noContent().build();
+    // 교수와 연결된 동아리 조회
+    @GetMapping("/{professorId}/clubs")
+    public List<ClubEntity> getClubsByProfessor(@PathVariable Integer professorId) {
+        return professorService.findClubsByProfessor(professorId);
     }
 }

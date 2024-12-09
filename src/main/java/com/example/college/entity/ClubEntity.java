@@ -7,14 +7,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Club")
+@Table(name = "club")
 @Getter
 @Setter
 @NoArgsConstructor
 public class ClubEntity {
+
     @Id
     @Column(name = "club_name")
-    private String clubName; // Primary Key
+    private String clubName; // String 타입 기본 키
 
     @Column(name = "safety_status")
     private String safetyStatus;

@@ -6,9 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "ClubManagement")
+@Table(name = "clubmanagement")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,7 +21,7 @@ public class ClubManagementEntity {
     private String role;
 
     @Column(name = "start_date")
-    private String startDate;
+    private LocalDate startDate; // 변경된 부분
 
     @MapsId("clubName")
     @ManyToOne

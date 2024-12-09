@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "ClubJoin")
+@Table(name = "clubjoin")
 @Getter
 @Setter
 @NoArgsConstructor
