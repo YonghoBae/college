@@ -13,11 +13,9 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 public class ClubJoinEntity {
+
     @EmbeddedId
     private ClubJoinKey id;
-
-    @Column(name = "join_date")
-    private String joinDate;
 
     @MapsId("clubName")
     @ManyToOne
@@ -28,4 +26,7 @@ public class ClubJoinEntity {
     @ManyToOne
     @JoinColumn(name = "student_id")
     private StudentEntity student;
+
+    @Column(name = "join_date")
+    private String joinDate;
 }

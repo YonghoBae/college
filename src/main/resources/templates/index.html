@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,19 +28,19 @@
         <div id="content">
             <div id="student-content">
                 <h2 class="title is-4">Students</h2>
-                <button class="button is-primary" onclick="showCreateForm('students')">Add Student</button>
+                <button class="button is-primary" onclick="showCreateForm('student')">Add Student</button>
                 <div id="students-data"></div>
             </div>
 
             <div id="club-content" class="is-hidden">
                 <h2 class="title is-4">Clubs</h2>
-                <button class="button is-primary" onclick="showCreateForm('clubs')">Add Club</button>
+                <button class="button is-primary" onclick="showCreateForm('club')">Add Club</button>
                 <div id="clubs-data"></div>
             </div>
 
             <div id="professor-content" class="is-hidden">
                 <h2 class="title is-4">Professors</h2>
-                <button class="button is-primary" onclick="showCreateForm('professors')">Add Professor</button>
+                <button class="button is-primary" onclick="showCreateForm('professor')">Add Professor</button>
                 <div id="professors-data"></div>
             </div>
 
@@ -73,7 +73,8 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Handle tab switching
+        // Load the active tab's data immediately on page load
+        fetchData('student');
         document.querySelectorAll('.tabs ul li').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.tabs ul li').forEach(t => t.classList.remove('is-active'));
@@ -85,9 +86,6 @@
                 fetchData(tab.id.replace('-tab', ''));
             });
         });
-
-        // Load initial data for the active tab
-        fetchData('students');
     });
 
     function fetchData(endpoint) {
@@ -128,12 +126,18 @@
     function showCreateForm(endpoint) {
         let formHtml = `<div class="box">
                             <h3 class="title is-5">Add New ${capitalize(endpoint)}</h3>
-                            <form onsubmit="createItem(event, '${endpoint}')">`;
+                            <form onsubmit="createItem(event, 'student')">`;
 
         // Define different form fields based on the endpoint
         switch(endpoint) {
-            case 'students':
+            case 'student':
                 formHtml += `
+                    <div class="field">
+                        <label class="label">ID</label>
+                        <div class="control">
+                            <input class="input" type="number" name="studentId" placeholder="Enter ID" required>
+                        </div>
+                    </div>
                     <div class="field">
                         <label class="label">Name</label>
                         <div class="control">
@@ -141,9 +145,21 @@
                         </div>
                     </div>
                     <div class="field">
+                        <label class="label">Gender</label>
+                        <div class="control">
+                            <input class="input" type="text" name="gender" placeholder="Enter gender" required>
+                        </div>
+                    </div>
+                    <div class="field">
                         <label class="label">Email</label>
                         <div class="control">
                             <input class="input" type="email" name="email" placeholder="Enter email" required>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Contact</label>
+                        <div class="control">
+                            <input class="input" type="text" name="contact" placeholder="Enter contact" required>
                         </div>
                     </div>`;
                 break;
@@ -255,10 +271,13 @@
         // Adjust data keys based on endpoint
         let payload = {};
         switch(endpoint) {
-            case 'students':
+            case 'student':
                 payload = {
+                    studentId: data.studentId,
                     name: data.name,
-                    email: data.email
+                    gender: data.gender,
+                    email: data.email,
+                    contact: data.contact
                 };
                 break;
             case 'clubs':
@@ -316,213 +335,6 @@
             })
             .then(() => fetchData(endpoint))
             .catch(error => console.error('Error creating item:', error));
-    }
-
-    function showUpdateForm(endpoint, id) {
-        // Fetch the existing item data
-        fetch(`http://localhost:8080/${endpoint}/${id}`)
-            .then(response => response.json())
-            .then(data => {
-                let formHtml = `<div class="box">
-                                    <h3 class="title is-5">Edit ${capitalize(endpoint)}</h3>
-                                    <form onsubmit="updateItem(event, '${endpoint}', ${id})">`;
-
-                // Define different form fields based on the endpoint
-                switch(endpoint) {
-                    case 'students':
-                        formHtml += `
-                            <div class="field">
-                                <label class="label">Name</label>
-                                <div class="control">
-                                    <input class="input" type="text" name="name" value="${data.name}" required>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Email</label>
-                                <div class="control">
-                                    <input class="input" type="email" name="email" value="${data.email}" required>
-                                </div>
-                            </div>`;
-                        break;
-                    case 'clubs':
-                        formHtml += `
-                            <div class="field">
-                                <label class="label">Club Name</label>
-                                <div class="control">
-                                    <input class="input" type="text" name="clubName" value="${data.clubName}" required>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Professor ID</label>
-                                <div class="control">
-                                    <input class="input" type="number" name="professorId" value="${data.professor.professorId}" required>
-                                </div>
-                            </div>`;
-                        break;
-                    case 'professors':
-                        formHtml += `
-                            <div class="field">
-                                <label class="label">Professor Name</label>
-                                <div class="control">
-                                    <input class="input" type="text" name="name" value="${data.name}" required>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Department</label>
-                                <div class="control">
-                                    <input class="input" type="text" name="department" value="${data.department}" required>
-                                </div>
-                            </div>`;
-                        break;
-                    case 'assistants':
-                        formHtml += `
-                            <div class="field">
-                                <label class="label">Assistant Name</label>
-                                <div class="control">
-                                    <input class="input" type="text" name="name" value="${data.name}" required>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Assigned Professor ID</label>
-                                <div class="control">
-                                    <input class="input" type="number" name="professorId" value="${data.professor.professorId}" required>
-                                </div>
-                            </div>`;
-                        break;
-                    case 'budgets':
-                        formHtml += `
-                            <div class="field">
-                                <label class="label">Budget Amount</label>
-                                <div class="control">
-                                    <input class="input" type="number" name="amount" value="${data.amount}" required>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Club Name</label>
-                                <div class="control">
-                                    <input class="input" type="text" name="clubName" value="${data.club.clubName}" required>
-                                </div>
-                            </div>`;
-                        break;
-                    case 'activities':
-                        formHtml += `
-                            <div class="field">
-                                <label class="label">Activity Name</label>
-                                <div class="control">
-                                    <input class="input" type="text" name="activityName" value="${data.activityName}" required>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Club Name</label>
-                                <div class="control">
-                                    <input class="input" type="text" name="clubName" value="${data.club.clubName}" required>
-                                </div>
-                            </div>`;
-                        break;
-                    case 'notices':
-                        formHtml += `
-                            <div class="field">
-                                <label class="label">Title</label>
-                                <div class="control">
-                                    <input class="input" type="text" name="title" value="${data.title}" required>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="label">Content</label>
-                                <div class="control">
-                                    <textarea class="textarea" name="content" required>${data.content}</textarea>
-                                </div>
-                            </div>`;
-                        break;
-                    default:
-                        formHtml += `<p>Unknown endpoint.</p>`;
-                }
-
-                formHtml += `<button class="button is-primary mt-2" type="submit">Update</button>
-                            </form>
-                          </div>`;
-                document.getElementById(`${endpoint}s-data`).innerHTML = formHtml;
-            })
-            .catch(error => {
-                console.error('Error fetching item data:', error);
-                alert('Failed to load item data.');
-            });
-    }
-
-    function updateItem(event, endpoint, id) {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData);
-
-        // Adjust data keys based on endpoint
-        let payload = {};
-        switch(endpoint) {
-            case 'students':
-                payload = {
-                    studentId: id, // Assuming there's a studentId field
-                    name: data.name,
-                    email: data.email
-                };
-                break;
-            case 'clubs':
-                payload = {
-                    clubName: data.clubName,
-                    // Assuming professorId is needed to associate with a professor
-                    professor: { professorId: data.professorId }
-                };
-                break;
-            case 'professors':
-                payload = {
-                    professorId: id, // Assuming there's a professorId field
-                    name: data.name,
-                    department: data.department
-                };
-                break;
-            case 'assistants':
-                payload = {
-                    assistantId: id, // Assuming there's an assistantId field
-                    name: data.name,
-                    professor: { professorId: data.professorId }
-                };
-                break;
-            case 'budgets':
-                payload = {
-                    budgetId: id, // Assuming there's a budgetId field
-                    amount: data.amount,
-                    club: { clubName: data.clubName }
-                };
-                break;
-            case 'activities':
-                payload = {
-                    activityName: data.activityName,
-                    club: { clubName: data.clubName }
-                };
-                break;
-            case 'notices':
-                payload = {
-                    noticeId: id, // Assuming there's a noticeId field
-                    title: data.title,
-                    content: data.content
-                };
-                break;
-            default:
-                console.error('Unknown endpoint:', endpoint);
-                return;
-        }
-
-        fetch(`http://localhost:8080/${endpoint}/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error('Network response was not ok');
-            })
-            .then(() => fetchData(endpoint))
-            .catch(error => console.error('Error updating item:', error));
     }
 
     function deleteItem(endpoint, id) {
