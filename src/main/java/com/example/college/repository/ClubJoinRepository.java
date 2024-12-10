@@ -11,8 +11,9 @@ import java.util.List;
 public interface ClubJoinRepository extends JpaRepository<ClubJoinEntity, ClubJoinKey> {
 
     // 동아리 이름을 기준으로 가입한 학생들 조회
-    List<ClubJoinEntity> findByClubName(String clubName);
+    List<ClubJoinEntity> findByClub_ClubName(String clubName);
 
     // 학생 ID를 기준으로 가입한 동아리 조회
-    List<ClubJoinEntity> findByStudentId(Integer studentId);
+    List<ClubJoinEntity> findByStudent_StudentId(Integer studentId);
+
 }

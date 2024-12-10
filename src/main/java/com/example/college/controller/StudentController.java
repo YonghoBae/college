@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestControllerAdvice
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/student")
 @RequiredArgsConstructor
 public class StudentController {
 

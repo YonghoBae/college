@@ -13,9 +13,8 @@ import lombok.Setter;
 public class NoticeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "notice_id")
-    private Integer noticeId;
+    @Column(name = "notice_name")
+    private String noticeName;
 
     @Column(name = "content")
     private String content;

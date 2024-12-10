@@ -16,7 +16,7 @@ public class NoticeService {
         return NoticeRepository.findAll();
     }
 
-    public NoticeEntity findNoticeById(Integer id) {
+    public NoticeEntity findNoticeById(String id) {
         return NoticeRepository.findById(id).orElseThrow();
     }
 
@@ -28,7 +28,7 @@ public class NoticeService {
         NoticeRepository.save(Notice);
     }
 
-    public void deleteNotice(Integer id) {
+    public void deleteNotice(String id) {
         NoticeRepository.deleteById(id);
     }
 }

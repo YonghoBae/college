@@ -21,7 +21,7 @@ public class NoticeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<NoticeEntity> getNoticeById(@PathVariable Integer id) {
+    public ResponseEntity<NoticeEntity> getNoticeById(@PathVariable String id) {
         NoticeEntity Notice = noticeService.findNoticeById(id);
         return ResponseEntity.ok(Notice);
     }
@@ -39,7 +39,7 @@ public class NoticeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteNotice(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteNotice(@PathVariable String id) {
         noticeService.deleteNotice(id);
         return ResponseEntity.noContent().build();
     }
